@@ -18,7 +18,7 @@
 python3 -m http.server 8000
 ```
 
-浏览器打开 `http://localhost:8000`。也可以直接双击 `index.html` 使用手动录入和导入功能；YouTube API 自动读取建议通过本地服务打开。
+浏览器打开 `http://localhost:8000`。由于页面使用浏览器原生 ES Modules，请通过上述本地服务打开，不要直接双击 `index.html`。
 
 先点“载入示例”可体验完整报告。
 
