@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="本地优先、免费运行的海外社媒 Influencer 品牌匹配筛选工具" />
+  <title>BrandFit Scout — Influencer 筛选器</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <nav>
+      <a class="brand" href="#">BrandFit <span>Scout</span></a>
+      <div class="nav-actions">
+        <button class="ghost" id="demoBtn">载入示例</button>
+        <button class="ghost" id="exportBtn">导出报告</button>
+      </div>
+    </nav>
+    <div class="hero-copy">
+      <p class="eyebrow">LOCAL-FIRST · FREE MVP</p>
+      <h1>先判断“合不合适”，<br />再讨论“有多少粉丝”。</h1>
+      <p>统一评估 Instagram、TikTok、YouTube 创作者的品牌调性、互动质量、商业化密度与合作风险。所有资料只在你的浏览器内处理。</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="workspace">
+      <aside class="steps" aria-label="筛选步骤">
+        <button class="step active" data-step="1"><b>01</b><span>品牌画像<small>定义你的理想合作对象</small></span></button>
+        <button class="step" data-step="2"><b>02</b><span>创作者资料<small>链接、指标与近期内容</small></span></button>
+        <button class="step" data-step="3"><b>03</b><span>评估报告<small>建议、证据与置信度</small></span></button>
+        <div class="privacy-note"><span>●</span><p><strong>本地处理</strong><br />不会上传品牌或账号数据。</p></div>
+      </aside>
+
+      <div class="panel">
+        <form id="assessmentForm">
+          <section class="form-step active" data-panel="1">
+            <div class="section-heading"><div><p class="eyebrow">STEP 01</p><h2>品牌画像</h2></div><span class="status">必填</span></div>
+            <div class="field-grid">
+              <label>品牌名称<input id="brandName" required placeholder="例如：Luma Outdoor" /></label>
+              <label>目标市场<input id="markets" required placeholder="例如：美国、英国、德国" /></label>
+            </div>
+            <label>品牌 / 产品简介<textarea id="brandDescription" required rows="4" placeholder="产品定位、价格带、核心用户与使用场景"></textarea></label>
+            <label>核心主题与价值观 <small>用逗号分隔</small><input id="brandValues" required placeholder="户外、可持续、实用、女性力量" /></label>
+            <label>期待的内容风格 <small>可多选</small></label>
+            <div class="chips" id="toneChips">
+              <button type="button" data-value="专业">专业</button><button type="button" data-value="真实">真实</button><button type="button" data-value="生活化">生活化</button><button type="button" data-value="幽默">幽默</button><button type="button" data-value="高端">高端</button><button type="button" data-value="教育">教育</button><button type="button" data-value="冒险">冒险</button><button type="button" data-value="极简">极简</button>
+            </div>
+            <label>品牌禁区 / 排除主题 <small>用逗号分隔</small><input id="avoidTopics" placeholder="博彩、烟草、仇恨、危险挑战、政治极化" /></label>
+            <div class="form-actions"><span></span><button type="button" class="primary" data-next="2">继续：添加创作者 →</button></div>
+          </section>
+
+          <section class="form-step" data-panel="2">
+            <div class="section-heading"><div><p class="eyebrow">STEP 02</p><h2>创作者资料</h2></div><span class="status" id="dataStatus">手动数据</span></div>
+            <div class="platform-tabs" id="platformTabs">
+              <button type="button" class="active" data-platform="youtube">▶ YouTube</button>
+              <button type="button" data-platform="instagram">◎ Instagram</button>
+              <button type="button" data-platform="tiktok">♪ TikTok</button>
+            </div>
+            <label>账号主页或视频链接<input id="profileUrl" required placeholder="https://www.youtube.com/@creator" /></label>
+            <div class="youtube-fetch" id="youtubeFetch">
+              <label>YouTube Data API Key <small>仅保存在本次页面内</small><input id="youtubeApiKey" type="password" autocomplete="off" placeholder="可选：填写后自动读取公开频道及最近视频" /></label>
+              <button type="button" class="secondary" id="fetchYoutubeBtn">自动获取 YouTube 数据</button>
+              <p id="fetchMessage" class="helper">免费官方配额；一次完整读取通常约 3 个配额单位，@handle 无需高成本搜索。</p>
+            </div>
+            <div class="field-grid three">
+              <label>粉丝 / 订阅数<input id="followers" type="number" min="0" placeholder="125000" /></label>
+              <label>账号名称<input id="creatorName" placeholder="Creator name" /></label>
+              <label>账号地区线索<input id="creatorRegion" placeholder="US / London / SEA" /></label>
+            </div>
+            <label>个人简介<input id="creatorBio" placeholder="粘贴公开 Bio / Channel description" /></label>
+            <label>近期内容数据 <small>每行一条：标题或文案 | 播放/浏览 | 点赞 | 评论 | 分享（分享可空）</small>
+              <textarea id="postsData" rows="8" placeholder="48 Hours Hiking Alone | 82000 | 6300 | 284 | 190\nMy honest gear setup | 54000 | 4100 | 198 | 88"></textarea>
+            </label>
+            <div class="import-row">
+              <label class="file-button">导入 CSV / JSON<input id="dataFile" type="file" accept=".csv,.json,application/json,text/csv" /></label>
+              <button type="button" class="text-button" id="downloadTemplate">下载导入模板</button>
+              <span id="postCount">0 条内容</span>
+            </div>
+            <div class="form-actions"><button type="button" class="back" data-back="1">← 返回</button><button type="submit" class="primary">生成品牌匹配报告 →</button></div>
+          </section>
+        </form>
+
+        <section class="form-step report" data-panel="3" id="reportPanel" aria-live="polite">
+          <div class="empty-report"><p class="eyebrow">STEP 03</p><h2>报告等待生成</h2><p>完成前两步后，这里会出现评分与逐项证据。</p></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="methodology">
+      <div><p class="eyebrow">HOW IT WORKS</p><h2>六个维度，不让粉丝量绑架判断</h2></div>
+      <div class="method-grid">
+        <article><span>01</span><h3>品牌调性匹配</h3><p>主题、价值观、语气及目标市场线索。</p></article>
+        <article><span>02</span><h3>内容风格</h3><p>教育、测评、生活方式、娱乐等内容构成。</p></article>
+        <article><span>03</span><h3>互动质量</h3><p>互动率、评论深度代理指标及数据稳定性。</p></article>
+        <article><span>04</span><h3>商业化密度</h3><p>近期内容中广告、折扣码和付费合作占比。</p></article>
+        <article><span>05</span><h3>受众与地区线索</h3><p>基于公开简介与文本的线索，不冒充人口画像。</p></article>
+        <article><span>06</span><h3>风险与置信度</h3><p>敏感项、异常波动、缺失数据与证据覆盖度。</p></article>
+      </div>
+    </section>
+  </main>
+  <footer><strong>BrandFit Scout</strong><span>规则透明 · 数据本地 · 人做最终决定</span></footer>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
